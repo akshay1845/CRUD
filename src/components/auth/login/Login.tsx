@@ -1,15 +1,22 @@
+import {useContext} from 'react'
 import { Typography } from "antd";
 import { Form, Input, Button } from "antd";
 import { Row, Col, Image, message } from "antd";
-import "./login.css";
+import "./login.scss";
 import {NavLink, useNavigate} from 'react-router-dom'
+import {Logincontext} from '../../../context/Context'
 
 const { Title } = Typography;
 const Login = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+
+  const {acount, setAccount} = useContext<any>(Logincontext)
+
+  
+
   return (
-    <div className="container">
+    <div className="loginContainer">
       <Row className="row_class" gutter={[40, 32]}>
         <Col span={12} className="col1">
           <Title level={2} className="title">
@@ -29,7 +36,7 @@ const Login = () => {
                 const email_obj = JSON.parse(get_email);
                 if (email_obj.password === values.password) {
                   localStorage.setItem("auth", JSON.stringify(email_obj));
-                  // setAccount(email_obj)
+                  setAccount(true)
                   navigate('/home')
                 } else {
                   form.resetFields(["password"]);
@@ -96,7 +103,7 @@ const Login = () => {
         <Col span={12}>
           <Image width={500} src={"assets/login.jpg"} preview={false} />
           <Row>
-            <Col span={24} offset={10}>
+            <Col span={24} offset={10} className="navigateCol">
               Don't have an Account
               <NavLink to="/signup"> SignUp </NavLink>
             </Col>

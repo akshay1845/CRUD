@@ -1,18 +1,12 @@
-.container{
+.errorContainer{
     /* overflow: hidden; */
-    background: url("/public/assets/error.jpg" ) no-repeat center center/cover;
+    background: url("../../../public/assets/error.jpg" ) no-repeat center center/cover;
     display: flex;
     justify-content: center;
     align-items: center;
     /* flex-direction: column; */
-
-}
-.img{
     width: 100vw;
     height: 100vh;
-    z-index: 1;
+
 }
 
-.btn{
-    z-index:2;
-}

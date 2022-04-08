@@ -2,7 +2,7 @@ import { Typography } from "antd";
 import { Form, Input, Button } from "antd";
 import { Row, Col, Image, Radio } from "antd";
 import { Select, message } from "antd";
-import "./signup.css";
+import "./signup.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 
@@ -15,7 +15,7 @@ const Signup = () => {
   const navigation = useNavigate();
 
   return (
-    <div className="container">
+    <div className="signupContainer">
       <Row style={{ width: "fit-content", margin: "auto" }} gutter={[40, 32]}>
         <Col span={12} className="column">
           <Title level={2} className="title">
@@ -196,7 +196,7 @@ const Signup = () => {
             preview={false}
           />
           <Row>
-            <Col span={24} offset={5}>
+            <Col span={24} offset={5} className="colToNavigate">
               Already have an Account &nbsp;
               <NavLink to="/"> LogIn </NavLink>
             </Col>
