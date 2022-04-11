@@ -1,9 +1,16 @@
+import "./home.scss";
 import { useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { callApi } from "../../../redux/actions/action";
 import { Table, Tag, Space, Typography, Row, Col, Modal } from "antd";
 import { Logincontext } from "../../../context/Context";
-import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+  FileAddTwoTone,
+} from "@ant-design/icons";
+import { NavLink } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -16,7 +23,7 @@ const Home = () => {
 
   const Apidata = useSelector((state: any): any => state.API_Data.Apidata);
 
-  const info = (e: any) => {
+  const info = (e: number) => {
     Modal.info({
       title: `Information of Id-${e}`,
       content: (
@@ -25,20 +32,14 @@ const Home = () => {
             <>
               <pre>
                 <b>Name:</b> <p>{data?.name}</p>
-
                 <b>UserName:</b> <p>{data?.username}</p>
-                
                 <b>Email:</b> <p>{data?.email}</p>
-                
                 <b>Address:</b>
-                <p>{data?.address?.street}</p> <p>{data?.address?.city}</p> <p>{data?.address?.zipcode}</p>
-                
-                <b>Phone.</b>  <p>{data?.phone}</p>
-               
-                <b>website:</b>  <p>{data?.website}</p>
-               
+                <p>{data?.address?.street}</p> <p>{data?.address?.city}</p>{" "}
+                <p>{data?.address?.zipcode}</p>
+                <b>Phone.</b> <p>{data?.phone}</p>
+                <b>website:</b> <p>{data?.website}</p>
                 <b>company:</b> <p>{data?.company.name}</p>
-                
               </pre>
             </>
           ))}
@@ -48,7 +49,7 @@ const Home = () => {
     });
   };
 
-  const rowData = (e: any) => {
+  const rowData = (e: number) => {
     console.log("hello rowData", e);
     info(e);
   };
@@ -114,8 +115,13 @@ const Home = () => {
     };
   });
   return (
-    <div>
-      <Table pagination={false} columns={columns} dataSource={data} />
+    <div className="homeContainer">
+      <div className="newRecord">
+       <NavLink to="/addRecord">Add New Record<FileAddTwoTone  /></NavLink> 
+      </div>
+      <div className="table">
+        <Table pagination={false} columns={columns} dataSource={data} />
+      </div>
     </div>
   );
 };

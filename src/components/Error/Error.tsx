@@ -1,9 +1,13 @@
 import './error.scss'
+import {useNavigate} from 'react-router-dom'
+
 const Error = () => {
+
+
+  const navigate = useNavigate()
   return (
     <div className="errorContainer">
-      {/* <img src="./assets/error.jpg" className="img" /> */}
-      <button className="btn">Go Back to Home</button>
+      <button className="btn" onClick = {()=>navigate('/home')}>Go Back to Home</button>
     </div>
   )
 }

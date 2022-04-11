@@ -6,32 +6,33 @@ import Signup from "./components/auth/signup/Signup";
 import Home from "./components/pages/home/Home";
 import Error from "./components/Error/Error";
 import { Logincontext } from "./context/Context";
+import NewRecord from "./components/pages/new record/NewRecord";
 
 function App() {
   const { account, setAccount } = useContext<any>(Logincontext);
-  const isAuthenticated = ()=>{
-    const auth = localStorage.getItem("auth")
+
+  const isAuthenticated = () => {
+    const auth = localStorage.getItem("auth");
+
     auth ? setAccount(true) : setAccount(false);
-  }
+  };
 
-  useEffect(()=>{
-    isAuthenticated()
-  },[account])
+  useEffect(() => {
+    isAuthenticated();
+  }, [account]);
 
-
-  
   return (
     <div className="App">
       <Routes>
-        {account ? (
-          <Route path="/home" element={<Home />} />
-        ) : (
+        {account && (
           <>
-            <Route path="/" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/addRecord" element={<NewRecord />} />
+            
           </>
         )}
-
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </div>

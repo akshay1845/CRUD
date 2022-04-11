@@ -10,6 +10,11 @@ const API_Data = (state = intialize, action: any) => {
         Apidata: action.payload,
       };
 
+      case "DATA_ADDED":
+        console.log("action", action);
+          
+        return { ...state, Apidata: [...state.postData, action.payload] }
+
     default:
       return state;
   }

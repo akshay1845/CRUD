@@ -11,11 +11,15 @@ const Login = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
-  const {acount, setAccount} = useContext<any>(Logincontext)
+  const {account, setAccount} = useContext<any>(Logincontext)
 
   
 
   return (
+    <>
+    {
+      account ? navigate('/home') : (
+        <>
     <div className="loginContainer">
       <Row className="row_class" gutter={[40, 32]}>
         <Col span={12} className="col1">
@@ -111,6 +115,11 @@ const Login = () => {
         </Col>
       </Row>
     </div>
+        
+        </>
+      )
+    }
+    </>
   );
 };
 

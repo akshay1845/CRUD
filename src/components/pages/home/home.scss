@@ -1,0 +1,15 @@
+.homeContainer{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+ 
+    .newRecord{
+        width: 60%;
+        padding-left:50%;
+        border : 1px solid black;
+        margin:50px
+    }
+}
