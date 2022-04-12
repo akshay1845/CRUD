@@ -7,6 +7,7 @@ import Home from "./components/pages/home/Home";
 import Error from "./components/Error/Error";
 import { Logincontext } from "./context/Context";
 import NewRecord from "./components/pages/new record/NewRecord";
+import Editdata from "./components/pages/editdata/Editdata";
 
 function App() {
   const { account, setAccount } = useContext<any>(Logincontext);
@@ -28,6 +29,7 @@ function App() {
           <>
             <Route path="/home" element={<Home />} />
             <Route path="/addRecord" element={<NewRecord />} />
+            <Route path="/editdata/:id" element={<Editdata />} />
             
           </>
         )}

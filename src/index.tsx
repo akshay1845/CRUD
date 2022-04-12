@@ -8,13 +8,13 @@ import Context from "./context/Context";
 ReactDOM.render(
   // <React.StrictMode>
 
+      <Provider store={store}>
   <Context>
     <BrowserRouter>
-      <Provider store={store}>
         <App />
-      </Provider>
     </BrowserRouter>
-  </Context>,
+  </Context>
+      </Provider>,
   // </React.StrictMode>
   document.getElementById("root")
 );

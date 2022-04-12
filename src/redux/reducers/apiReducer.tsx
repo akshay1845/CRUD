@@ -10,10 +10,11 @@ const API_Data = (state = intialize, action: any) => {
         Apidata: action.payload,
       };
 
-      case "DATA_ADDED":
-        console.log("action", action);
+      // case "DATA_ADDED":
+      //   console.log("action", action.payload);
+      //   // console.log("hello reducer,", ...state.Apidata.pop().id);
           
-        return { ...state, Apidata: [...state.postData, action.payload] }
+      //   return { ...state, Apidata: [...state.Apidata, action.payload] }
 
     default:
       return state;

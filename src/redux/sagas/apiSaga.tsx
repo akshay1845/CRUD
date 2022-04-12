@@ -1,4 +1,4 @@
-import { setApi, addUpdatedData } from "../actions/action";
+import {  setApi } from "../actions/action";
 import {call, takeEvery, put} from 'redux-saga/effects'
 import axios from "axios";
 
@@ -7,7 +7,7 @@ const api = async () => {
     // const data  = await response.json();
     // return data
 
-    const data = axios
+    const data = await axios
     .get("https://jsonplaceholder.typicode.com/users")
     .then((response) => {
       return response.data;
@@ -17,12 +17,8 @@ const api = async () => {
 }
 
 
-const dataPost = (action:any) => {
-    const data = axios
-    .post("https://jsonplaceholder.typicode.com/users",action.payload)
-    .then((response) => {
-      return response.data;
-    });
+const dataPost = async (action:any) => {
+    const data = action.payload;
 
     console.log("data from post", data);
     
@@ -41,15 +37,17 @@ export function* ApiCalling(){
     yield takeEvery("FETCH_DATA",fetchApi)
 }
 
-export function* AddingData(){
+// export function* AddingData(){
+
+  
     
-    yield takeEvery("ADD_DATA", function* (data:any):any{
-        // console.log("from adding data",data.payload);
-        // yield put(setApi(data.payload))
+//     yield takeEvery("ADD_DATA", function* (data:any):any{
+//         console.log("from adding data",data.payload);
 
-        const data1:any = yield call(dataPost, data);
+
+//         const data1:any = yield call(dataPost, data);
         
-        yield put(addUpdatedData(data1))
+//         yield put(addUpdatedData(data1))
 
-    })
-}
+//     })
+// }

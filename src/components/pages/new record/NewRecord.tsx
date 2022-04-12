@@ -1,19 +1,34 @@
 import { Button, Col, Input } from "antd";
 import { Form, message } from "antd";
-import { useState } from "react";
-import {addData} from '../../../redux/actions/action'
-import {useDispatch} from 'react-redux'
+import { useContext, useEffect, useState } from "react";
+// import {addData} from '../../../redux/actions/action'
+import {useDispatch, useSelector} from 'react-redux'
 
 import "./newRecord.scss";
 import { useNavigate } from "react-router-dom";
+import { Logincontext } from "../../../context/Context";
+
 
 const NewRecord = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  let [id, setId] = useState(0)
+
+  const { account, setAccount, apidata, setApidata } = useContext<any>(Logincontext);
+
+
+   useEffect( () => {
+     setId(apidata.pop().id +1);
+   },[])
+
+   console.log("id is here", id);
+   
+  
 
   const setObj = (val: any) => {
     const object = {
+      id:id,
       name: val.name,
       username: val.userName,
       email: val.email,
@@ -28,8 +43,17 @@ const NewRecord = () => {
         name: val.companyName,
       },
     };
-    dispatch(addData(object))
+    console.log("object:",object);
+    console.log("object1233:",apidata);
+    
+    let aaa= apidata[id] = object
+    setApidata(aaa)
+
+    
+
+    // dispatch(addData(object))
   };
+  
 
   return (
     <div className="addRecordContainer">
@@ -43,7 +67,7 @@ const NewRecord = () => {
             form={form}
             layout="vertical"
             onFinish={(values) => {
-              setObj(values);
+           setObj(values)
               navigate('/home')
 
             }}

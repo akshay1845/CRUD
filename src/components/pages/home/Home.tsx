@@ -1,7 +1,7 @@
 import "./home.scss";
 import { useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { callApi } from "../../../redux/actions/action";
+import { callApi, setApi } from "../../../redux/actions/action";
 import { Table, Tag, Space, Typography, Row, Col, Modal } from "antd";
 import { Logincontext } from "../../../context/Context";
 import {
@@ -12,23 +12,30 @@ import {
 } from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
 
+
+
 const Home = () => {
   const dispatch = useDispatch();
+  
 
-  const { account, setAccount } = useContext<any>(Logincontext);
+  const { account, setAccount, apidata, setApidata } = useContext<any>(Logincontext);
 
-  useEffect(() => {
-    dispatch(callApi);
-  }, []);
+  console.log("from home context, ", apidata);
+  
 
-  const Apidata = useSelector((state: any): any => state.API_Data.Apidata);
+  // useEffect(() => {
+  //   // dispatch(callApi);
+  // }, []);
+
+  // const Apidata = useSelector((state: any): any => state.API_Data.Apidata);
+  // setApidata(Apidata)
 
   const info = (e: number) => {
     Modal.info({
       title: `Information of Id-${e}`,
       content: (
         <div>
-          {Apidata.filter((val: any) => e == val.id).map((data: any) => (
+          {apidata.length > 0 && apidata.filter((val: any) => e == val.id).map((data: any) => (
             <>
               <pre>
                 <b>Name:</b> <p>{data?.name}</p>
@@ -53,6 +60,10 @@ const Home = () => {
     console.log("hello rowData", e);
     info(e);
   };
+
+    const editData = (e: number) => {
+      console.log("hello rowData", e);
+    };
 
   //Table Columns
   const columns = [
@@ -96,7 +107,8 @@ const Home = () => {
 
           <EyeOutlined onClick={() => rowData(record.no)} />
           {/* <a>Invite {record.name}</a> */}
-          <EditOutlined />
+          <NavLink to={`/editdata/${record.no}`}><EditOutlined/></NavLink>
+          
           <DeleteOutlined />
         </Space>
       ),
@@ -104,7 +116,7 @@ const Home = () => {
   ];
 
   //Table Data
-  let data = Apidata.map((val: any) => {
+  let data = apidata.length>0 && apidata.map((val: any) => {
     return {
       no: val?.id,
       name: val?.name,
