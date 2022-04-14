@@ -7,45 +7,54 @@ import { useDispatch, useSelector } from "react-redux";
 import "./editdata.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { Logincontext } from "../../../context/Context";
+import { domainToASCII } from "url";
+import { setApi } from "../../../redux/actions/action";
 
 const Editdata = () => {
   let { id } = useParams<any>();
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  let [data, setData] = useState([])
+  let [data, setData] = useState<any>([])
 
   const { account, setAccount, apidata, setApidata } =
     useContext<any>(Logincontext);
 
-  // console.log("from edit", typeof parseInt(id));
   data = apidata.filter((no: any) => no.id == id);
-  console.log("id from edit", data);
-  // console.log("tgis is data", data[0].name);
+
   useEffect(()=>{
     setData(data)
   },[])
   
 
-  // const setObj = (val: any) => {
-  //   const object = {
-  //     id:id,
-  //     name: val.name,
-  //     username: val.userName,
-  //     email: val.email,
-  //     address: {
-  //       street: val.street,
-  //       city: val.city,
-  //       zipcode: val.zipcode,
-  //     },
-  //     phone: val.phone,
-  //     website: val.website,
-  //     company: {
-  //       name: val.companyName,
-  //     },
-  //   };
+  const setObj = (val: any) => {
+    const object = {
+      id:data[0].id,
+      name:val.name!=undefined ?  val.name : data[0].name,
+      username: val.userName!=undefined ?  val.userName : data[0].username,
+      email: val.email!=undefined ?  val.email : data[0].email,
+      address: {
+        street: val.street!=undefined ?  val.street : data[0].address.street,
+        city: val.city!=undefined ?  val.city : data[0].address.city,
+        zipcode: val.zipcode!=undefined ?  val.zipcode : data[0].address.zipcode,
+      },
+      phone: val.phone!=undefined ?  val.phone : data[0].phone,
+      website: val.website!=undefined ?  val.website : data[0].website,
+      company: {
+        name: val.companyName!=undefined ?  val.companyName : data[0].company.name,
+      },
 
-  // };
+      
+    };
+    console.log("object=>",object);
+
+    apidata[data[0].id-1] = object
+
+    setApidata(apidata)
+    
+    
+  };
+
 
   return (
     <div className="addRecordContainer">
@@ -54,13 +63,17 @@ const Editdata = () => {
         <>
           <div className="form">
             <Col span={12} className="column">
-              <h2 className="title">Add Record</h2>
+              <h2 className="title">Update Data</h2>
               <Form
                 autoComplete="off"
                 style={{ padding: "15px 0" }}
                 form={form}
                 layout="vertical"
-                onFinish={(defaultValues) => {}}
+                onFinish={(defaultValues) => {
+                  console.log("onfinish=>", defaultValues);
+                    setObj(defaultValues)
+                    navigate('/home')
+                }}
               >
                 <Form.Item
                   name="name"
@@ -68,7 +81,7 @@ const Editdata = () => {
       
                   rules={[
                     {
-                      required: true,
+                      // required: true,
                       message: "Name is required",
                     },
                     {
@@ -90,7 +103,7 @@ const Editdata = () => {
                   label="User Name:"
                   rules={[
                     {
-                      required: true,
+                      // required: true,
                       message: "User Name is required",
                     },
                     {
@@ -111,7 +124,7 @@ const Editdata = () => {
                   label="Email Address:"
                   rules={[
                     {
-                      required: true,
+                      // required: true,
                       message: "Email is required",
                     },
                     {
@@ -133,7 +146,7 @@ const Editdata = () => {
                   label="street:"
                   rules={[
                     {
-                      required: true,
+                      // required: true,
                       message: "street is required",
                     },
                     {
@@ -154,7 +167,7 @@ const Editdata = () => {
                   label="City:"
                   rules={[
                     {
-                      required: true,
+                      // required: true,
                       message: "City is required",
                     },
                     {
@@ -175,7 +188,7 @@ const Editdata = () => {
                   label="zipcode:"
                   rules={[
                     {
-                      required: true,
+                      // required: true,
                       message: "zipcode is required",
                     },
                     {
@@ -196,7 +209,7 @@ const Editdata = () => {
                   label="Phone Number"
                   rules={[
                     {
-                      required: true,
+                      // required: true,
                       min: 10,
                       message: "Please input  phone number!",
                     },
@@ -211,7 +224,7 @@ const Editdata = () => {
                 <Form.Item
                   name="website"
                   label="Website"
-                  rules={[{ required: true, message: "Please input website!" }]}
+                  // rules={[{ required: true, message: "Please input website!" }]}
                 >
                   <Input
                     defaultValue={element?.website}
@@ -223,7 +236,7 @@ const Editdata = () => {
                   label="Company Name:"
                   rules={[
                     {
-                      required: true,
+                      // required: true,
                       message: "Company Name is required",
                     },
                     {

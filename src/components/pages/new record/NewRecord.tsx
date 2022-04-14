@@ -1,34 +1,30 @@
 import { Button, Col, Input } from "antd";
-import { Form, message } from "antd";
+import { Form } from "antd";
 import { useContext, useEffect, useState } from "react";
-// import {addData} from '../../../redux/actions/action'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 
 import "./newRecord.scss";
 import { useNavigate } from "react-router-dom";
 import { Logincontext } from "../../../context/Context";
 
-
 const NewRecord = () => {
   const [form] = Form.useForm();
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  let [id, setId] = useState(0)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  let [id, setId] = useState(0);
 
-  const { account, setAccount, apidata, setApidata } = useContext<any>(Logincontext);
+  const { account, setAccount, apidata, setApidata } =
+    useContext<any>(Logincontext);
 
+  useEffect(() => {
+    setId(apidata.reverse()[0].id + 1);
+  }, []);
 
-   useEffect( () => {
-     setId(apidata.pop().id +1);
-   },[])
-
-   console.log("id is here", id);
-   
-  
+  console.log("id is here", id);
 
   const setObj = (val: any) => {
     const object = {
-      id:id,
+      id: id,
       name: val.name,
       username: val.userName,
       email: val.email,
@@ -43,17 +39,17 @@ const NewRecord = () => {
         name: val.companyName,
       },
     };
-    console.log("object:",object);
-    console.log("object1233:",apidata);
-    
-    let aaa= apidata[id] = object
-    setApidata(aaa)
 
-    
+    console.log("before apidata=>", apidata);
+    apidata.reverse();
 
-    // dispatch(addData(object))
+    apidata.push(object);
+
+    console.log("after apidata=>", apidata);
+
+    setApidata(apidata);
+
   };
-  
 
   return (
     <div className="addRecordContainer">
@@ -67,9 +63,8 @@ const NewRecord = () => {
             form={form}
             layout="vertical"
             onFinish={(values) => {
-           setObj(values)
-              navigate('/home')
-
+              setObj(values);
+              navigate("/home");
             }}
           >
             <Form.Item

@@ -1,4 +1,4 @@
-import { Typography } from "antd";
+import { DatePicker, Typography } from "antd";
 import { Form, Input, Button } from "antd";
 import { Row, Col, Image, Radio } from "antd";
 import { Select, message } from "antd";
@@ -142,6 +142,13 @@ const Signup = () => {
                 <Radio value="Female">Female</Radio>
                 <Radio value="Other">Other</Radio>
               </Radio.Group>
+            </Form.Item>
+
+            <Form.Item
+            label="Date of Birth"
+            name = "dob">
+              <DatePicker format='DD/MM/YYYY' />
+
             </Form.Item>
 
             <Form.Item name="country" label="Country:" requiredMark="optional">

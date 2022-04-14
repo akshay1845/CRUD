@@ -1,8 +1,7 @@
 import "./home.scss";
 import { useEffect, useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { callApi, setApi } from "../../../redux/actions/action";
-import { Table, Tag, Space, Typography, Row, Col, Modal } from "antd";
+import { useDispatch } from "react-redux";
+import { Table, Space, Modal, Popconfirm, message } from "antd";
 import { Logincontext } from "../../../context/Context";
 import {
   DeleteOutlined,
@@ -10,46 +9,41 @@ import {
   EyeOutlined,
   FileAddTwoTone,
 } from "@ant-design/icons";
-import { NavLink } from "react-router-dom";
-
-
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
-  
 
-  const { account, setAccount, apidata, setApidata } = useContext<any>(Logincontext);
+  const navigate = useNavigate();
+
+  const { account, setAccount, apidata, setApidata } =
+    useContext<any>(Logincontext);
 
   console.log("from home context, ", apidata);
-  
-
-  // useEffect(() => {
-  //   // dispatch(callApi);
-  // }, []);
-
-  // const Apidata = useSelector((state: any): any => state.API_Data.Apidata);
-  // setApidata(Apidata)
 
   const info = (e: number) => {
     Modal.info({
       title: `Information of Id-${e}`,
       content: (
         <div>
-          {apidata.length > 0 && apidata.filter((val: any) => e == val.id).map((data: any) => (
-            <>
-              <pre>
-                <b>Name:</b> <p>{data?.name}</p>
-                <b>UserName:</b> <p>{data?.username}</p>
-                <b>Email:</b> <p>{data?.email}</p>
-                <b>Address:</b>
-                <p>{data?.address?.street}</p> <p>{data?.address?.city}</p>{" "}
-                <p>{data?.address?.zipcode}</p>
-                <b>Phone.</b> <p>{data?.phone}</p>
-                <b>website:</b> <p>{data?.website}</p>
-                <b>company:</b> <p>{data?.company.name}</p>
-              </pre>
-            </>
-          ))}
+          {apidata.length > 0 &&
+            apidata
+              .filter((val: any) => e == val.id)
+              .map((data: any) => (
+                <>
+                  <pre>
+                    <b>Name:</b> <p>{data?.name}</p>
+                    <b>UserName:</b> <p>{data?.username}</p>
+                    <b>Email:</b> <p>{data?.email}</p>
+                    <b>Address:</b>
+                    <p>{data?.address?.street}</p> <p>{data?.address?.city}</p>{" "}
+                    <p>{data?.address?.zipcode}</p>
+                    <b>Phone.</b> <p>{data?.phone}</p>
+                    <b>website:</b> <p>{data?.website}</p>
+                    <b>company:</b> <p>{data?.company.name}</p>
+                  </pre>
+                </>
+              ))}
         </div>
       ),
       onOk() {},
@@ -61,9 +55,24 @@ const Home = () => {
     info(e);
   };
 
-    const editData = (e: number) => {
-      console.log("hello rowData", e);
-    };
+  const confirm = (e: number) => {
+    console.log("e=>", e);
+
+    const index = apidata.findIndex((i: any) => i.id === e);
+    console.log("index", index);
+
+    apidata.splice(index, 1);
+    message.success("Data Deleted Successfully");
+    setApidata(apidata);
+    navigate("/home");
+  };
+  const cancel = (e: number) => {
+    message.warning("Data will not be Deleted");
+  };
+
+  useEffect(() => {
+    setApidata(apidata);
+  }, [apidata]);
 
   //Table Columns
   const columns = [
@@ -102,34 +111,76 @@ const Home = () => {
       key: "action",
       render: (text: string, record: any) => (
         <Space size="middle">
-          {/* {console.log("selector", record) */}
-          {/* } */}
-
           <EyeOutlined onClick={() => rowData(record.no)} />
-          {/* <a>Invite {record.name}</a> */}
-          <NavLink to={`/editdata/${record.no}`}><EditOutlined/></NavLink>
-          
-          <DeleteOutlined />
+          <NavLink to={`/editdata/${record.no}`}>
+            <EditOutlined />
+          </NavLink>
+          <Popconfirm
+            title="Are you sure to delete this Data?"
+            onConfirm={() => confirm(record.no)}
+            onCancel={() => cancel(record.no)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <DeleteOutlined />
+          </Popconfirm>
         </Space>
       ),
     },
   ];
 
   //Table Data
-  let data = apidata.length>0 && apidata.map((val: any) => {
-    return {
-      no: val?.id,
-      name: val?.name,
-      email: val?.email,
-      city: val?.address?.city,
-      phone: val?.phone,
-      company: val?.company?.name,
-    };
-  });
+  let data =
+    apidata.length > 0 &&
+    apidata.map((val: any) => {
+      return {
+        no: val?.id,
+        name: val?.name,
+        email: val?.email,
+        city: val?.address?.city,
+        phone: val?.phone,
+        company: val?.company?.name,
+      };
+    });
+  //logout
+
+  const handleLogout = () => {
+    localStorage.removeItem("auth");
+    setAccount(false);
+    navigate("/");
+  };
+
+  const akshay:any = (localStorage.getItem("auth"))
+ const obj = JSON.parse(akshay)
+ 
+ const date = new Date();
+ const dob = obj.dob.split('T')[0].split('-')
+ console.log("date", obj.dob.split('T')[0].split('-'));
+
+ if(date.getDate() == dob[2] && date.getMonth() == dob[1] && date.getFullYear()){
+   console.log("yesss");
+ }
+ else{
+   console.log("noooooo");
+   
+ }
+
+ 
+ 
+
   return (
     <div className="homeContainer">
+      <div className="wishing">
+        Happy Birthday {obj.Name}
+      </div>
+      <div className="logout">
+        <button onClick={handleLogout}>Logout</button>
+      </div>
       <div className="newRecord">
-       <NavLink to="/addRecord">Add New Record<FileAddTwoTone  /></NavLink> 
+        <NavLink to="/addRecord">
+          Add New Record
+          <FileAddTwoTone />
+        </NavLink>
       </div>
       <div className="table">
         <Table pagination={false} columns={columns} dataSource={data} />
