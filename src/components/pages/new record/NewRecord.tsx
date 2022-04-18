@@ -171,12 +171,13 @@ const NewRecord = () => {
                 },
                 {
                   min: 6,
-                  message: "zipcode must be more than 3 Characters",
+                  max:6,
+                  message: "zipcode must be 6 Characters",
                 },
               ]}
               hasFeedback
             >
-              <Input type={"number"} placeholder="Enter Zipcode here..." />
+              <Input type={"text"} placeholder="Enter Zipcode here..." />
             </Form.Item>
 
             <Form.Item
@@ -186,7 +187,8 @@ const NewRecord = () => {
                 {
                   required: true,
                   min: 10,
-                  message: "Please input  phone number!",
+                  max:10,
+                  message: "Please input Valid phone number!",
                 },
               ]}
             >

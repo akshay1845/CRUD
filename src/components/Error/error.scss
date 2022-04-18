@@ -1,12 +1,25 @@
 .errorContainer{
     /* overflow: hidden; */
-    background: url("../../../public/assets/error.jpg" ) no-repeat center center/cover;
+    background: url("../../../public/assets/error.jpg" )  no-repeat center center/cover;
     display: flex;
     justify-content: center;
     align-items: center;
     /* flex-direction: column; */
     width: 100vw;
     height: 100vh;
+
+    .errorBtn{
+        border-radius:15px;
+        background-color: rgb(45, 33, 207);
+        color:white;
+
+        &:hover {
+            color: rgb(45, 33, 207);
+            background-color:white;
+
+        }
+       
+    }
 
 }
 

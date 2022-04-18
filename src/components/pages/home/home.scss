@@ -1,15 +1,37 @@
 .homeContainer{
     height: 100vh;
     width: 100vw;
+    margin-top: 5%;
+    fit-content:center;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+
+    .wishing{
+        margin-bottom: 15px;
+    }
  
     .newRecord{
         width: 60%;
         padding-left:50%;
-        border : 1px solid black;
         margin:50px
+    }
+    .logout{
+        width: 30%;
+        height: 15%;
+        .logoutBtn{
+            border-radius: 20px ;
+            background-color: #df4d43;
+            color: #ffff;
+
+            &:hover{
+                background-color: #194b0f;
+            color: #ffff;
+            }
+        }
+    }
+    .editRecord{
+        color: #000000
     }
 }

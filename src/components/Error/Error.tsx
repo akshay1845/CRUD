@@ -7,7 +7,7 @@ const Error = () => {
   const navigate = useNavigate()
   return (
     <div className="errorContainer">
-      <button className="btn" onClick = {()=>navigate('/home')}>Go Back to Home</button>
+      <button className="errorBtn" onClick = {()=>navigate('/home')}>Go Back to Home</button>
     </div>
   )
 }

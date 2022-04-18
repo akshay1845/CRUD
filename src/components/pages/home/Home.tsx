@@ -1,25 +1,28 @@
 import "./home.scss";
 import { useEffect, useContext } from "react";
 import { useDispatch } from "react-redux";
-import { Table, Space, Modal, Popconfirm, message } from "antd";
+import { Table, Space, Modal, Popconfirm, message, Card } from "antd";
 import { Logincontext } from "../../../context/Context";
 import {
+  CloseOutlined,
   DeleteOutlined,
   EditOutlined,
   EyeOutlined,
   FileAddTwoTone,
 } from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Home = () => {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const { account, setAccount, apidata, setApidata } =
     useContext<any>(Logincontext);
 
-  console.log("from home context, ", apidata);
+  const [visible, setVisible] = useState(true);
+
+  // console.log("from home context, ", apidata);
 
   const info = (e: number) => {
     Modal.info({
@@ -70,10 +73,6 @@ const Home = () => {
     message.warning("Data will not be Deleted");
   };
 
-  useEffect(() => {
-    setApidata(apidata);
-  }, [apidata]);
-
   //Table Columns
   const columns = [
     {
@@ -113,7 +112,7 @@ const Home = () => {
         <Space size="middle">
           <EyeOutlined onClick={() => rowData(record.no)} />
           <NavLink to={`/editdata/${record.no}`}>
-            <EditOutlined />
+            <EditOutlined className="editRecord" />
           </NavLink>
           <Popconfirm
             title="Are you sure to delete this Data?"
@@ -150,34 +149,54 @@ const Home = () => {
     navigate("/");
   };
 
-  const akshay:any = (localStorage.getItem("auth"))
- const obj = JSON.parse(akshay)
- 
- const date = new Date();
- const dob = obj.dob.split('T')[0].split('-')
- console.log("date", obj.dob.split('T')[0].split('-'));
+  const authData: any = localStorage.getItem("auth");
+  const obj = JSON.parse(authData);
 
- if(date.getDate() == dob[2] && date.getMonth() == dob[1] && date.getFullYear()){
-   console.log("yesss");
- }
- else{
-   console.log("noooooo");
-   
- }
+  const date = new Date();
+  const dob = obj.dob.split("T")[0].split("-");
+  console.log("date", obj.dob.split("T")[0].split("-"));
 
- 
- 
+  if (
+    localStorage.getItem("dob") == null &&
+    date.getDate() == parseInt(dob[2]) &&
+    date.getMonth() + 1 == parseInt(dob[1])
+  ) {
+    console.log("yesss", localStorage.setItem("dob", obj.dob));
+  } else {
+    console.log("nooo", date.getDate(), date.getMonth(), obj.dob);
+  }
+
+  const setClose = () => {
+    localStorage.setItem("close", "done");
+    setVisible(false)
+  };
+  useEffect(() => {
+    setApidata(apidata);
+  }, [apidata, visible]);
 
   return (
     <div className="homeContainer">
-      <div className="wishing">
-        Happy Birthday {obj.Name}
-      </div>
+      {localStorage.getItem("close") == null &&
+        localStorage.getItem("dob") != null && (
+          <>
+            <div className="wishing">
+              <Card
+                title={`Heyyyy ${obj.Name}`}
+                extra={<CloseOutlined onClick={() => setClose()} />}
+                style={{ width: 300 }}
+              >
+                <p>Wish You very Happy Birthday!!!!</p>
+              </Card>
+            </div>
+          </>
+        )}
       <div className="logout">
-        <button onClick={handleLogout}>Logout</button>
+        <button className="logoutBtn" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
       <div className="newRecord">
-        <NavLink to="/addRecord">
+        <NavLink to="/addRecord" className="editRecord">
           Add New Record
           <FileAddTwoTone />
         </NavLink>
