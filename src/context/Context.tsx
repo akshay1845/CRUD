@@ -23,19 +23,19 @@ const Context = ({ children }: Context) => {
   const dispatch = useDispatch()
   const Apidata = useSelector((state: any): any => state.API_Data.Apidata);
   
-  const akshay = async ()=>{
-    const aaa =await Apidata
-    // console.log("2222", aaa);
-    setApidata(aaa)
+  const fetchApiData = async ()=>{
+    const data =await Apidata
+    setApidata(data)
   }
 
-  akshay()
+
+  fetchApiData()
+
 
   if(flag == 0){
-    console.log(flag,"bvwbdbbvwbwvib ibwvbibwvbievbw")
     dispatch(callApi);
     setFlag(1)
-    akshay()
+    fetchApiData()
   }
   return (
     <>

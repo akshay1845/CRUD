@@ -8,6 +8,7 @@ import "./editdata.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { Logincontext } from "../../../context/Context";
 import { domainToASCII } from "url";
+import { setApi } from "../../../redux/actions/action";
 
 const Editdata = () => {
   let { id } = useParams<any>();
@@ -16,7 +17,7 @@ const Editdata = () => {
   const navigate = useNavigate();
   let [data, setData] = useState<any>([])
 
-  const { apidata, setApidata } =
+  const { account, setAccount, apidata, setApidata } =
     useContext<any>(Logincontext);
 
   data = apidata.filter((no: any) => no.id == id);
@@ -192,7 +193,7 @@ const Editdata = () => {
                     },
                     {
                       min: 6,
-                      message: "zipcode must be 6 Characters",
+                      message: "zipcode must be more than 3 Characters",
                     },
                   ]}
                   hasFeedback
@@ -241,7 +242,8 @@ const Editdata = () => {
                     },
                     {
                       min: 3,
-                      message: "Company Name must be more than 3 Characters",
+                      max:6,
+                      message: "Company Name must be 6 Characters",
                     },
                   ]}
                   hasFeedback

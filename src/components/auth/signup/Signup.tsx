@@ -1,7 +1,7 @@
-import { DatePicker, Typography } from "antd";
+import { DatePicker, message, Typography } from "antd";
 import { Form, Input, Button } from "antd";
 import { Row, Col, Image, Radio } from "antd";
-import { Select, message } from "antd";
+import { Select } from "antd";
 import "./signup.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import Checkbox from "antd/lib/checkbox/Checkbox";
@@ -146,7 +146,11 @@ const Signup = () => {
 
             <Form.Item
             label="Date of Birth"
-            name = "dob">
+            name = "dob"
+          rules={[
+            {required: true,
+            message: "Please select BirthDate"}
+          ]}>
               <DatePicker format='DD/MM/YYYY' />
 
             </Form.Item>

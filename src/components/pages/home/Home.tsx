@@ -12,6 +12,7 @@ import {
 } from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { callApi, setApi } from "../../../redux/actions/action";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -146,6 +147,7 @@ const Home = () => {
   const handleLogout = () => {
     localStorage.removeItem("auth");
     setAccount(false);
+    dispatch(callApi);
     navigate("/");
   };
 
@@ -168,8 +170,9 @@ const Home = () => {
 
   const setClose = () => {
     localStorage.setItem("close", "done");
-    setVisible(false)
+    setVisible(false);
   };
+
   useEffect(() => {
     setApidata(apidata);
   }, [apidata, visible]);
