@@ -60,11 +60,8 @@ const Home = () => {
   };
 
   const confirm = (e: number) => {
-    console.log("e=>", e);
 
     const index = apidata.findIndex((i: any) => i.id === e);
-    console.log("index", index);
-
     apidata.splice(index, 1);
     message.success("Data Deleted Successfully");
     setApidata(apidata);
@@ -77,7 +74,7 @@ const Home = () => {
   //Table Columns
   const columns = [
     {
-      title: "sr No.",
+      title: "Sr No.",
       dataIndex: "no",
       key: "no",
     },
@@ -156,7 +153,6 @@ const Home = () => {
 
   const date = new Date();
   const dob = obj.dob.split("T")[0].split("-");
-  console.log("date", obj.dob.split("T")[0].split("-"));
 
   if (
     localStorage.getItem("dob") == null &&
@@ -164,8 +160,6 @@ const Home = () => {
     date.getMonth() + 1 == parseInt(dob[1])
   ) {
     console.log("yesss", localStorage.setItem("dob", obj.dob));
-  } else {
-    console.log("nooo", date.getDate(), date.getMonth(), obj.dob);
   }
 
   const setClose = () => {
@@ -193,16 +187,20 @@ const Home = () => {
             </div>
           </>
         )}
-      <div className="logout">
-        <button className="logoutBtn" onClick={handleLogout}>
-          Logout
-        </button>
-      </div>
-      <div className="newRecord">
-        <NavLink to="/addRecord" className="editRecord">
-          Add New Record
-          <FileAddTwoTone />
-        </NavLink>
+
+      <div className="actionbar">
+        <div className="newRecord">
+          <NavLink to="/addRecord" className="addRecord">
+            Add New Record
+            <FileAddTwoTone />
+          </NavLink>
+        </div>
+        <div className="logout">
+          <button className="logoutBtn" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+
       </div>
       <div className="table">
         <Table pagination={false} columns={columns} dataSource={data} />

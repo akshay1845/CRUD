@@ -21,9 +21,9 @@ const Login = () => {
       account ? navigate('/home') : (
         <>
     <div className="loginContainer">
-      <Row className="row_class" gutter={[40, 32]}>
-        <Col span={12} className="col1">
-          <Title level={2} className="title">
+      <Row className="rowClass" gutter={[40, 32]}>
+        <Col span={12} className="loginformCol">
+          <Title level={2} className="loginTitle">
             Login
           </Title>
           <Form
@@ -34,8 +34,8 @@ const Login = () => {
             onFinish={(values) => {
               const get_email = localStorage.getItem(values.Email);
               if (get_email === null) {
-                form.resetFields();
-                message.error("Email Not Found!!!");
+                // form.resetFields();
+                message.error("Email Not Found in Database!!! You should have to Register!");
               } else {
                 const email_obj = JSON.parse(get_email);
                 if (email_obj.password === values.password) {
@@ -43,7 +43,7 @@ const Login = () => {
                   setAccount(true)
                   navigate('/home')
                 } else {
-                  form.resetFields(["password"]);
+                  // form.resetFields(["password"]);  
                   message.error("Password Doesn't Match!!!");
                 }
               }
@@ -52,20 +52,17 @@ const Login = () => {
             <Form.Item
               name="Email"
               label="Email Address:"
-              // rules={[
-              //   {
-              //     required: true,
-              //     message: "Email is required",
-              //   },
-              //   {
-              //     type: "email",
-              //     message: "Please Enter Valid Email",
-              //   },
-              //   {
-              //     min: 3,
-              //     message: "Name must be more than 3 Characters",
-              //   },
-              // ]}
+              rules={[
+                {
+                  required: true,
+                  message: "Email is required",
+                },
+                {
+                  pattern:
+                    /^[a-z0-9]+(?!.*(?:\+{2,}|\-{2,}|\.{2,}))(?:[\.+\-]{0,1}[a-z0-9])*@gmail\.com$/,
+                  message: "Please Enter Valid Email",
+                },
+              ]}
               hasFeedback
             >
               <Input placeholder="Enter Your Email Id" />
@@ -74,24 +71,25 @@ const Login = () => {
             <Form.Item
               label="Password:"
               name="password"
-                // rules={[
-                //   {
-                //     required: true,
-                //   },
-                //   { min: 6, message: "Atleast 6 Characters Required" },
-                //   {
-                //     validator: (_, value) =>
-                //       value &&
-                //       /[A-Z]/.test(value) &&
-                //       /[a-z]/.test(value) &&
-                //       /[0-9]/.test(value) &&
-                //       /[@#$%^&]/.test(value)
-                //         ? Promise.resolve()
-                //         : Promise.reject(
-                //             "Note: Must use 1 capital, 1 small, 1 Numeric, 1 symbol"
-                //           ),
-                //   },
-                // ]}
+              rules={[
+                {
+                  required: true,
+                  message: "Password is required",
+                },
+                { min: 6, message: "Atleast 6 Characters Required in Password" },
+                {
+                  validator: (_, value) =>
+                    value &&
+                    /[A-Z]/.test(value) &&
+                    /[a-z]/.test(value) &&
+                    /[0-9]/.test(value) &&
+                    /[@#$%^&]/.test(value)
+                      ? Promise.resolve()
+                      : Promise.reject(
+                          "Note: Must use 1 capital, 1 small, 1 Numeric, 1 symbol"
+                        ),
+                },
+              ]}
                 hasFeedback
             >
               <Input.Password placeholder="Enter Password"></Input.Password>
@@ -99,13 +97,13 @@ const Login = () => {
             {/* <Checkbox >Remember Me</Checkbox> */}
             <Form.Item className="btn">
               <Button type="primary" htmlType="submit">
-                Submit
+                Login
               </Button>
             </Form.Item>
           </Form>
         </Col>
         <Col span={12}>
-          <Image width={500} src={"assets/login.jpg"} preview={false} />
+          <Image width={500} src={"assets/login.svg"} preview={false} />
           <Row>
             <Col span={24} offset={10} className="navigateCol">
               Don't have an Account

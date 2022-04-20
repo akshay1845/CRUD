@@ -1,23 +1,49 @@
-import { DatePicker, message, Typography } from "antd";
+import { DatePicker, message, Modal, Typography } from "antd";
 import { Form, Input, Button } from "antd";
 import { Row, Col, Image, Radio } from "antd";
 import { Select } from "antd";
 import "./signup.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import Checkbox from "antd/lib/checkbox/Checkbox";
+import moment from "moment";
 
 const { Option } = Select;
 const { Password } = Input;
 const { Title } = Typography;
+const { RangePicker } = DatePicker;
 
 const Signup = () => {
   const [form] = Form.useForm();
   const navigation = useNavigate();
+  
+
+  //BirthDate
+  function disabledDate(current :any) {  
+    return current < moment("YYYY") || current > moment().subtract(18, 'year');
+}
+
+const terms = ()=>{
+  Modal.info({
+    title:"Terms & Conditions",
+    content:(
+      <div>
+        Agree Our Terms & Conditions, This is about our policy.<br/>
+        If you are not accepting our policy, you can't Register!!!
+      </div>
+    )
+  })
+}
+
+
 
   return (
     <div className="signupContainer">
-      <Row style={{ width: "fit-content", margin: "auto" }} gutter={[40, 32]}>
-        <Col span={12} className="column">
+      <Row
+        className="rowFormClass"
+        style={{ width: "fit-content", margin: "auto" }}
+        gutter={[40, 32]}
+      >
+        <Col span={12} className="formColumn">
           <Title level={2} className="title">
             Registration
           </Title>
@@ -47,8 +73,8 @@ const Signup = () => {
                   message: "Name is required",
                 },
                 {
-                  min: 3,
-                  message: "Name must be more than 3 Characters",
+                  pattern: /^[A-Za-z]{3,29}$/,
+                  message: "Name must be more than 3 Characters and not <br />Contain any Numeric Values",
                 },
               ]}
               hasFeedback
@@ -65,12 +91,9 @@ const Signup = () => {
                   message: "Email is required",
                 },
                 {
-                  type: "email",
+                  pattern:
+                    /^[a-z0-9]+(?!.*(?:\+{2,}|\-{2,}|\.{2,}))(?:[\.+\-]{0,1}[a-z0-9])*@gmail\.com$/,
                   message: "Please Enter Valid Email",
-                },
-                {
-                  min: 3,
-                  message: "Name must be more than 3 Characters",
                 },
               ]}
               hasFeedback
@@ -81,24 +104,25 @@ const Signup = () => {
             <Form.Item
               label="Password:"
               name="password"
-              rules={[
-                {
-                  required: true,
-                },
-                { min: 6, message: "Atleast 6 Characters Required" },
-                {
-                  validator: (_, value) =>
-                    value &&
-                    /[A-Z]/.test(value) &&
-                    /[a-z]/.test(value) &&
-                    /[0-9]/.test(value) &&
-                    /[@#$%^&]/.test(value)
-                      ? Promise.resolve()
-                      : Promise.reject(
-                          "Note: Must use 1 capital, 1 small, 1 Numeric, 1 symbol"
-                        ),
-                },
-              ]}
+                rules={[
+                  {
+                    required: true,
+                    message: "Password is required",
+                  },
+                  { min: 6, message: "Atleast 6 Characters Required in Password" },
+                  {
+                    validator: (_, value) =>
+                      value &&
+                      /[A-Z]/.test(value) &&
+                      /[a-z]/.test(value) &&
+                      /[0-9]/.test(value) &&
+                      /[@#$%^&]/.test(value)
+                        ? Promise.resolve()
+                        : Promise.reject(
+                            "Note: Must use 1 capital, 1 small, 1 Numeric, 1 symbol"
+                          ),
+                  },
+                ]}
               hasFeedback
             >
               <Password placeholder="Enter Password"></Password>
@@ -111,6 +135,7 @@ const Signup = () => {
               rules={[
                 {
                   required: true,
+                  message:"Confirm Password is required"
                 },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
@@ -145,14 +170,12 @@ const Signup = () => {
             </Form.Item>
 
             <Form.Item
-            label="Date of Birth"
-            name = "dob"
-          rules={[
-            {required: true,
-            message: "Please select BirthDate"}
-          ]}>
-              <DatePicker format='DD/MM/YYYY' />
-
+              label="Date of Birth"
+              name="dob"
+              rules={[{ required: true, message: "Please select BirthDate" }]}
+            >
+              <DatePicker format="DD/MM/YYYY"disabledDate={disabledDate}  />
+            
             </Form.Item>
 
             <Form.Item name="country" label="Country:" requiredMark="optional">
@@ -182,7 +205,7 @@ const Signup = () => {
             >
               <Checkbox>
                 {" "}
-                Agree to our <a href="#">Terms & conditions</a>
+                Agree to our <a onClick={()=>{terms()}}>Terms & conditions</a>
               </Checkbox>
             </Form.Item>
 
@@ -194,25 +217,26 @@ const Signup = () => {
               }}
             >
               <Button type="primary" htmlType="submit">
-                Submit
+                Register
               </Button>
             </Form.Item>
           </Form>
         </Col>
         <Col span={12}>
-          <Image
-            width={500}
-            src={"assets/register.jpg"}
-            style={{ marginTop: "120px" }}
-            preview={false}
-          />
-          <Row>
-            <Col span={24} offset={5} className="colToNavigate">
-              Already have an Account &nbsp;
-              <NavLink to="/"> LogIn </NavLink>
-            </Col>
-          </Row>
-          <></>
+          <div className="rightCol">
+            <Image
+              width={500}
+              src={"assets/register.svg"}
+              style={{ marginTop: "120px" }}
+              preview={false}
+            />
+            <Row>
+              <Col span={24} offset={5} className="colToNavigate">
+                Already have an Account &nbsp;
+                <NavLink to="/"> LogIn </NavLink>
+              </Col>
+            </Row>
+          </div>
         </Col>
       </Row>
     </div>

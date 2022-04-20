@@ -16,11 +16,11 @@ const NewRecord = () => {
   const { account, setAccount, apidata, setApidata } =
     useContext<any>(Logincontext);
 
-  useEffect(() => {
-    setId(apidata.reverse()[0].id + 1);
-  }, []);
+    const getId = apidata.reverse()[0].id 
 
-  console.log("id is here", id);
+  useEffect(() => {
+    setId(getId + 1);
+  }, []);
 
   const setObj = (val: any) => {
     const object = {
@@ -40,12 +40,8 @@ const NewRecord = () => {
       },
     };
 
-    console.log("before apidata=>", apidata);
-    apidata.reverse();
 
     apidata.push(object);
-
-    console.log("after apidata=>", apidata);
 
     setApidata(apidata);
 
@@ -76,8 +72,8 @@ const NewRecord = () => {
                   message: "Name is required",
                 },
                 {
-                  min: 3,
-                  message: "Name must be more than 3 Characters",
+                  pattern: /^[A-Za-z]{3,29}$/,
+                  message: "Name must be more than 3 Characters and not <br />Contain any Numeric Values",
                 },
               ]}
               hasFeedback
@@ -94,8 +90,8 @@ const NewRecord = () => {
                   message: "User Name is required",
                 },
                 {
-                  min: 3,
-                  message: "It must be more than 3 Characters",
+                  pattern: /^[A-Za-z]{3,29}$/,
+                  message: "UserName must be more than 3 Characters and not <br />Contain any Numeric Values",
                 },
               ]}
               hasFeedback
@@ -112,12 +108,8 @@ const NewRecord = () => {
                   message: "Email is required",
                 },
                 {
-                  type: "email",
+                  pattern: /^[A-Za-z]{3,29}$/,
                   message: "Please Enter Valid Email",
-                },
-                {
-                  min: 3,
-                  message: "email must be more than 3 Characters",
                 },
               ]}
               hasFeedback
@@ -152,8 +144,9 @@ const NewRecord = () => {
                   message: "City is required",
                 },
                 {
-                  min: 3,
-                  message: "City must be more than 3 Characters",
+                  pattern:
+                  /^[a-z0-9]+(?!.*(?:\+{2,}|\-{2,}|\.{2,}))(?:[\.+\-]{0,1}[a-z0-9])*@gmail\.com$/,
+                  message: "City must be more than 3 Characters and not Contain Numeric values",
                 },
               ]}
               hasFeedback
@@ -188,9 +181,10 @@ const NewRecord = () => {
                   required: true,
                   min: 10,
                   max:10,
-                  message: "Please input Valid phone number!",
+                  message: "Please input Valid phone Number!",
                 },
               ]}
+              hasFeedback
             >
               <Input type={"number"} placeholder="Enter Phone no." />
             </Form.Item>
@@ -212,8 +206,9 @@ const NewRecord = () => {
                   message: "Company Name is required",
                 },
                 {
-                  min: 3,
-                  message: "Company Name must be more than 3 Characters",
+                  pattern:
+                  /^[a-z0-9]+(?!.*(?:\+{2,}|\-{2,}|\.{2,}))(?:[\.+\-]{0,1}[a-z0-9])*@gmail\.com$/,
+                  message: "Company Name must be more than 3 Characters and not contain any Numeric Values",
                 },
               ]}
               hasFeedback
@@ -222,8 +217,9 @@ const NewRecord = () => {
             </Form.Item>
 
             <Button type="primary" htmlType="submit">
-              Submit
+              ADD
             </Button>
+            <Button onClick={() => navigate('/home')}>CANCEL</Button>
           </Form>
         </Col>
       </div>
