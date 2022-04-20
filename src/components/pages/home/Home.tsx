@@ -173,9 +173,13 @@ const Home = () => {
 
   return (
     <div className="homeContainer">
+       <div className="homeMain">
+
+
       {localStorage.getItem("close") == null &&
         localStorage.getItem("dob") != null && (
           <>
+         
             <div className="wishing">
               <Card
                 title={`Heyyyy ${obj.Name}`}
@@ -205,6 +209,7 @@ const Home = () => {
       <div className="table">
         <Table pagination={false} columns={columns} dataSource={data} />
       </div>
+       </div>
     </div>
   );
 };
