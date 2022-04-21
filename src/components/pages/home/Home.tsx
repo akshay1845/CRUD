@@ -27,7 +27,7 @@ const Home = () => {
 
   const info = (e: number) => {
     Modal.info({
-      title: `Information of Id-${e}`,
+      title: <h2>Information of Id-{e}</h2>,
       content: (
         <div>
           {apidata.length > 0 &&
@@ -54,8 +54,7 @@ const Home = () => {
     });
   };
 
-  const rowData = (e: number) => {
-    console.log("hello rowData", e);
+  const rowData = (e: number) => {  
     info(e);
   };
 
@@ -67,9 +66,7 @@ const Home = () => {
     setApidata(apidata);
     navigate("/home");
   };
-  const cancel = (e: number) => {
-    message.warning("Data will not be Deleted");
-  };
+ 
 
   //Table Columns
   const columns = [
@@ -115,7 +112,6 @@ const Home = () => {
           <Popconfirm
             title="Are you sure to delete this Data?"
             onConfirm={() => confirm(record.no)}
-            onCancel={() => cancel(record.no)}
             okText="Yes"
             cancelText="No"
           >
@@ -155,15 +151,15 @@ const Home = () => {
   const dob = obj.dob.split("T")[0].split("-");
 
   if (
-    localStorage.getItem("dob") == null &&
+    localStorage.getItem("loginUserDob") == null &&
     date.getDate() == parseInt(dob[2]) &&
     date.getMonth() + 1 == parseInt(dob[1])
   ) {
-    console.log("yesss", localStorage.setItem("dob", obj.dob));
+    // console.log("yesss", localStorage.setItem("dob", obj.dob));
   }
 
   const setClose = () => {
-    localStorage.setItem("close", "done");
+    localStorage.setItem("manuallyClose", "done");
     setVisible(false);
   };
 
@@ -176,8 +172,8 @@ const Home = () => {
        <div className="homeMain">
 
 
-      {localStorage.getItem("close") == null &&
-        localStorage.getItem("dob") != null && (
+      {localStorage.getItem("manuallyClose") == null &&
+        localStorage.getItem("loginUserDob") != null && (
           <>
          
             <div className="wishing">

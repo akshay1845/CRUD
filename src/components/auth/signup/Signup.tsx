@@ -6,6 +6,7 @@ import "./signup.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import Checkbox from "antd/lib/checkbox/Checkbox";
 import moment from "moment";
+import * as EmailValidator from 'email-validator';
 
 const { Option } = Select;
 const { Password } = Input;
@@ -40,9 +41,10 @@ const terms = ()=>{
     <div className="signupContainer">
       <Row
         className="rowFormClass"
-        style={{ width: "fit-content", margin: "auto" }}
-        gutter={[40, 32]}
+        // style={{ width: "fit-content", margin: "auto" }}
+        // gutter={[40, 32]}
       >
+        <div className="left">
         <Col span={12} className="formColumn">
           <Title level={2} className="title">
             Registration
@@ -91,9 +93,11 @@ const terms = ()=>{
                   message: "Email is required",
                 },
                 {
-                  pattern:
-                    /^[a-z0-9]+(?!.*(?:\+{2,}|\-{2,}|\.{2,}))(?:[\.+\-]{0,1}[a-z0-9])*@gmail\.com$/,
-                  message: "Please Enter Valid Email",
+                  validator: (_, value) => 
+                  value && 
+                  EmailValidator.validate(value) ? 
+                  Promise.resolve() :
+                  Promise.reject("Please Enter Valid Email")
                 },
               ]}
               hasFeedback
@@ -157,7 +161,7 @@ const terms = ()=>{
               rules={[
                 {
                   required: true,
-                  message: "Please, select Gender",
+                  message: "Please select Gender",
                 },
               ]}
               hasFeedback
@@ -198,7 +202,7 @@ const terms = ()=>{
                     value
                       ? Promise.resolve()
                       : Promise.reject(
-                          "you must have to Accept our Term & Conditions before submitting"
+                          "you must have to Accept our Terms & Conditions before submitting"
                         ),
                 },
               ]}
@@ -222,6 +226,9 @@ const terms = ()=>{
             </Form.Item>
           </Form>
         </Col>
+
+        </div>
+        <div className="right">
         <Col span={12}>
           <div className="rightCol">
             <Image
@@ -238,6 +245,8 @@ const terms = ()=>{
             </Row>
           </div>
         </Col>
+
+        </div>
       </Row>
     </div>
   );

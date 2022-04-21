@@ -14,6 +14,7 @@
     "antd": "^4.19.5",
     "axios": "^0.26.1",
     "axois": "^0.0.1-security",
+    "email-validator": "^2.0.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-redux": "^7.2.8",

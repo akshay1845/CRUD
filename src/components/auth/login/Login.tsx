@@ -5,6 +5,7 @@ import { Row, Col, Image, message } from "antd";
 import "./login.scss";
 import {NavLink, useNavigate} from 'react-router-dom'
 import {Logincontext} from '../../../context/Context'
+import * as EmailValidator from 'email-validator';
 
 const { Title } = Typography;
 const Login = () => {
@@ -58,9 +59,11 @@ const Login = () => {
                   message: "Email is required",
                 },
                 {
-                  pattern:
-                    /^[a-z0-9]+(?!.*(?:\+{2,}|\-{2,}|\.{2,}))(?:[\.+\-]{0,1}[a-z0-9])*@gmail\.com$/,
-                  message: "Please Enter Valid Email",
+                  validator: (_, value) => 
+                  value && 
+                  EmailValidator.validate(value) ? 
+                  Promise.resolve() :
+                  Promise.reject("Please Enter Valid Email")
                 },
               ]}
               hasFeedback
@@ -94,7 +97,6 @@ const Login = () => {
             >
               <Input.Password placeholder="Enter Password"></Input.Password>
             </Form.Item>
-            {/* <Checkbox >Remember Me</Checkbox> */}
             <Form.Item className="btn">
               <Button type="primary" htmlType="submit">
                 Login
